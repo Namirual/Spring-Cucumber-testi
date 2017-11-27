@@ -61,7 +61,7 @@ public class SeleniumStepdefs {
         element.sendKeys(title);
         element = driver.findElement(By.name("author"));
         element.sendKeys(author);
-        driver.findElement(By.name("submit")).submit();
+        driver.findElement(By.name("sendtip")).submit();
     }
 
     @Then("^the page will contain \"([^\"]*)\"$")
