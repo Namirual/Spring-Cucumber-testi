@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lukuvinkit</title>
+        <meta charset="utf-8"></meta>
+    </head>
+    <body>
+        <div>
+            <h1>Lukuvinkit</h1>
+
+            <div>
+                <font color="red">
+                    <span th:text="${message}"></span>
+                </font>    
+            </div>
+            <br></br>
+            <table border="1" frame="void" rules="rows">
+                <tr>
+                    <th align="left">Otsikko</th>
+                    <th align="left">Kirjoittaja</th>
+                    <th align="left">Kuvaus</th>
+                    <th align="left">ISBN</th>
+                    <th align="left">Luettu</th>
+                    <th align="left"></th>
+                </tr>
+
+                <tr th:each="book : ${books}">
+                    <td><a th:href="@{/books/{id}(id=${book.title})}" th:text="${book.title}">title</a></td>
+                    <td><span th:text="${book.author}">author</span></td>
+                    <td><span th:text="${book.description}">description</span></td>
+                    <td><span th:text="${book.ISBN}">ISBN</span></td>
+                    <td><span th:text="${book.read}">read</span></td>
+                    <td><form th:action="@{/books/{id}(id=${book.title})}" th:method="DELETE"><input type="submit" value="Delete"/></form></td>
+                </tr>
+            </table>
+
+        </div>
+        <h2>Lisää lukuvinkki</h2>
+        <div>
+            <form action="/books" method="POST">
+                <span>Kirjan nimi: </span>
+                <input type="text" name="title"/>
+                <span>Kirjailija: </span>
+                <input type="text" name="author"/>
+                <span>Kuvaus: </span>
+                <input type="text" name="description"/>
+                <span>ISBN: </span>
+                <input type="text" name="ISBN"/>-->
+
+                <input type="submit" name="submit" value="Lisää!"/>
+            </form>
+        </div>
+    </body>
+</html>

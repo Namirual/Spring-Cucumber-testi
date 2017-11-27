@@ -1,0 +1,87 @@
+package lukuvinkkikirjasto.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class Book implements Tip {
+
+    private String title;
+    private String author;
+    private String description;
+    private String ISBN;
+    private boolean read;
+
+    public Book(String title, String author) {
+        this(title, author, "", "", false);
+    }
+
+    @Override
+    public boolean markRead(){
+        if(this.read)
+            return false;
+        this.read=true;
+        return true;
+    }
+    
+    @Override
+    public boolean markNotRead(){
+        if (!this.read)
+            return false;
+        this.read = false;
+        return true;
+    }
+
+    @Override
+    public boolean edit(String element, String edit){
+        switch (element ){
+            case "title":
+                changeTitle(edit);
+                break;
+            case "author":
+                changeAuthor(edit);
+                break;
+            case "description":
+                changeDescription(edit);
+                break;
+            case "isbn":
+                changeISBN(edit);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        String r;
+        if(read) r = "Read";
+        else r = "Not read";
+        return "Author: " + this.author + "\nTitle: " + this.title + "\nDescription: " + this.description + "\nISBN: " + this.ISBN + "\n"+r;
+    }
+    
+    @Override
+    public String identify() {
+        return title;
+    }
+
+    private void changeTitle(String title){
+        this.title = title;
+    }
+
+    private void changeAuthor(String author){
+        this.author = author;
+    }
+
+    private void changeDescription(String description){
+        this.description = description;
+    }
+
+    private void changeISBN(String isbn){
+        this.ISBN = isbn;
+    }
+}
