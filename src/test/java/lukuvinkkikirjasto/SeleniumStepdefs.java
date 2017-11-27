@@ -65,7 +65,8 @@ public class SeleniumStepdefs {
 
     @Then("^the page will contain \"([^\"]*)\"$")
     public void page_will_contain(String pageContent) throws Throwable {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        Thread.sleep(1000);
         assertTrue(driver.getPageSource().contains(pageContent));
     }
 
