@@ -17,13 +17,17 @@ import java.util.concurrent.TimeUnit;
 import lukuvinkkikirjasto.dao.BasicTipDao;
 import lukuvinkkikirjasto.io.StubIO;
 import static org.junit.Assert.assertTrue;
+
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -182,7 +186,9 @@ public class SeleniumStepdefs {
             }
             Thread.sleep(500);
             element.click();
-            Thread.sleep(1000);
+            WebDriverWait wait = new WebDriverWait(driver, 5);
+
+            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
         }
         driver.quit();
