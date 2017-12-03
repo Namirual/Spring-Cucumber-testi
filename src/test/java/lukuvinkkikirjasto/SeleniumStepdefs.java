@@ -181,7 +181,6 @@ public class SeleniumStepdefs {
             try {
                 element = driver.findElement(By.name("delete"));
             } catch (NoSuchElementException ex) {
-                driver.quit();
                 break;
             }
             Thread.sleep(500);
