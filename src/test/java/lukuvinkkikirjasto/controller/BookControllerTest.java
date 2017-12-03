@@ -73,7 +73,7 @@ public class BookControllerTest {
 
         MvcResult result2 = this.mockMvc.perform(delete("/books/{id}", "kirja"))
                 .andReturn();
-        assertTrue(result2.getFlashMap().containsValue("Kirjan poistaminen onnistui!"));
+        assertTrue(result2.getFlashMap().containsValue("Vinkin poistaminen onnistui!"));
     }
 
     @Test
@@ -85,9 +85,24 @@ public class BookControllerTest {
         MvcResult result2 = this.mockMvc.perform(MockMvcRequestBuilders.post("/books/{id}", "kirja")
                 .param("title", "kirja")
                 .param("author", "kirjoittaja")
-                .param("description", "hyvä"))
+                .param("description", "hyvä")
+                .param("tags", "tagit"))
                 .andReturn();
         assertTrue(result2.getFlashMap().containsValue("Kirjan muokkaaminen onnistui!"));
+
+        this.mockMvc.perform(delete("/books/{id}", "kirja"));
+    }
+
+    @Test
+    public void searchReturnsAList() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/books")
+                .param("title", "kirja")
+                .param("description", "Testikirja")
+                .param("author", "kirjoittaja"));
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/search")
+                .param("keyword", "testi"))
+                .andExpect(model().attributeExists("books"));
 
         this.mockMvc.perform(delete("/books/{id}", "kirja"));
     }

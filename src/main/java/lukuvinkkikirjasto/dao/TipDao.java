@@ -1,6 +1,5 @@
 package lukuvinkkikirjasto.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import lukuvinkkikirjasto.domain.Tip;
 
@@ -23,4 +22,6 @@ public interface TipDao {
     public void editTip(int tip, String element, String edit);
 
     public void editTipByTitle(String title, String element, String edit);
+
+    public List<Tip> searchByKeyword(String keyword);
 }

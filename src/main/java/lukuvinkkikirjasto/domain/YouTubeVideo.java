@@ -1,38 +1,47 @@
-
 package lukuvinkkikirjasto.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class YouTubeVideo implements Tip {
-    
-    private String url;
+
     private String title;
+    private String url;
     private String uploader;
     private String description;
+    private String tagString;
+    private String[] tags;
+    private String type;
     private boolean watched;
-    
-    public YouTubeVideo(String url, String title) {
-        this(title, url, "", "", false);
+    private boolean urlpresent;
+
+    public YouTubeVideo(String title, String url) {
+        this(title, url, "", "", "", new String[0], "YouTubeVideo", false, true);
+    }
+
+    public YouTubeVideo(String title, String url, String uploader, String description, String tag) {
+        this(title, url, uploader, description, tag, new String[0], "YouTubeVideo", false, true);
     }
 
     @Override
     public boolean markRead() {
-        if(this.watched)
+        if (this.watched) {
             return false;
-        this.watched=true;
+        }
+        this.watched = true;
         return true;
     }
 
     @Override
     public boolean markNotRead() {
-        if (!this.watched)
+        if (!this.watched) {
             return false;
+        }
         this.watched = false;
         return true;
     }
@@ -42,6 +51,10 @@ public class YouTubeVideo implements Tip {
         return watched;
     }
 
+    public void setRead(boolean watched) {
+        this.watched = watched;
+    }
+
     @Override
     public String identify() {
         return title;
@@ -49,7 +62,7 @@ public class YouTubeVideo implements Tip {
 
     @Override
     public boolean edit(String element, String edit) {
-        switch (element ){
+        switch (element) {
             case "title":
                 changeTitle(edit);
                 break;
@@ -61,6 +74,9 @@ public class YouTubeVideo implements Tip {
                 break;
             case "uploader":
                 changeUploader(edit);
+                break;
+            case "tags":
+                addTags(edit);
                 break;
             default:
                 return false;
@@ -83,5 +99,51 @@ public class YouTubeVideo implements Tip {
     private void changeUploader(String edit) {
         this.uploader = edit;
     }
+
+    @Override
+    public boolean contains(String keyword) {
+        keyword = keyword.toLowerCase().trim();
+        if (this.uploader != null) {
+            if (this.uploader.toLowerCase().contains(keyword)) {
+                return true;
+            }
+        }
+        if (this.url != null) {
+            if (this.url.toLowerCase().contains(keyword)) {
+                return true;
+            }
+        }
+        if (this.description != null) {
+            if (this.description.toLowerCase().contains(keyword)) {
+                return true;
+            }
+        }
+        if (this.title != null) {
+            if (this.title.toLowerCase().contains(keyword)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void addTags(String tags) {
+        this.tagString = tags;
+        if (tags != null) {
+            this.tags = tags.split(";(\\s)*");
+        } else {
+            this.tags = new String[0];
+        }
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
+    }
+
+    @Override
+    public boolean isUrlpresent() {
+        return true;
+    }
+    
     
 }

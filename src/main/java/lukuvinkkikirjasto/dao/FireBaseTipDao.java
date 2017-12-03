@@ -4,15 +4,16 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import lukuvinkkikirjasto.domain.*;
 
 /**
- *
  * @author lmantyla
  */
 public class FireBaseTipDao implements TipDao {
@@ -28,8 +29,15 @@ public class FireBaseTipDao implements TipDao {
             @Override
             public void onDataChange(DataSnapshot data) {
                 for (DataSnapshot snapshot : data.getChildren()) {
-                    Tip tip = snapshot.getValue(Book.class);
-                    tips.put(tip.identify(), tip);
+                    if (snapshot.child("author").getValue() != null) {
+                        System.out.println("Kirja tunnistettu!");
+                        Tip tip = snapshot.getValue(Book.class);
+                        tips.put(tip.identify(), tip);
+                    } else if (snapshot.child("uploader").getValue() != null) {
+                        System.out.println("Youtubevideo tunnistettu!");
+                        Tip tip = snapshot.getValue(YouTubeVideo.class);
+                        tips.put(tip.identify(), tip);
+                    }
                 }
                 /*for (String key : tips.keySet()) {
                  System.out.println(tips.get(key));
@@ -133,5 +141,16 @@ public class FireBaseTipDao implements TipDao {
         }
         return string;
 
+    }
+
+    @Override
+    public List<Tip> searchByKeyword(String keyword) {
+        List<Tip> filteredTips = new ArrayList<>();
+        for (Tip tip : tips.values()) {
+            if (tip.contains(keyword)) {
+                filteredTips.add(tip);
+            }
+        }
+        return filteredTips;
     }
 }

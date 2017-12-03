@@ -18,12 +18,11 @@ public class TipDaoTest {
     BasicTipDao tipDao;
     Tip tip;
 
-
     class TestTip implements Tip {
 
         public boolean isRead;
         String id;
-        public String descrption;
+        public String description;
 
         public TestTip(String id) {
             isRead = false;
@@ -38,16 +37,40 @@ public class TipDaoTest {
         public boolean isRead() {
             return isRead;
         }
-        
+
+        @Override
+        public String getUrl() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public String getTitle() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        @Override
+        public boolean isUrlpresent() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
         public String identify() {
             return id;
         }
 
 //        @Override
         public boolean edit(String element, String edit) {
-            if (!element.equals("description"))
+            if (!element.equals("description")) {
                 return false;
-            descrption = edit;
+            }
+            description = edit;
             return true;
         }
 
@@ -56,12 +79,29 @@ public class TipDaoTest {
             isRead = false;
             return isRead;
         }
+
+        @Override
+        public boolean contains(String keyword) {
+            keyword = keyword.toLowerCase().trim();
+            if (description != null) {
+                if (description.toLowerCase().contains(keyword)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public String getType() {
+            return "Book";
+        }
     }
 
     @Before
     public void setUp() {
         tipDao = new BasicTipDao();
         tip = new TestTip("1");
+        tip.edit("description", "Testikuvaus.");
     }
 
     @Test
@@ -108,4 +148,14 @@ public class TipDaoTest {
         assertEquals(1, tipDao.getAllTips().size());
     }
 
+    @Test
+    public void existingAttributeReturnsTrueWhenSearching() {
+        assertTrue(tip.contains("testikuvaus"));
+        assertTrue(tip.contains("testi"));
+    }
+
+    @Test
+    public void nonExistingAttributeReturnsFalseWhenSearching() {
+        assertTrue(!tip.contains("nakki"));
+    }
 }

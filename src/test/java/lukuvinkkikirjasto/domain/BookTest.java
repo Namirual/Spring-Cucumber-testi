@@ -39,19 +39,29 @@ public class BookTest {
 
     @Test
     public void bookHasAllInformation() {
-        Book book = new Book("A book about books", "Billy Book", "This book has a lot of information about books", "ISBN1234", false);
+        Book book = new Book("A book about books", "Billy Book", "This book has a lot of information about books", "tag","ISBN1234");
         assertEquals("A book about books", book.getTitle());
         assertEquals("Billy Book", book.getAuthor());
         assertEquals("This book has a lot of information about books", book.getDescription());
+        assertEquals("tag", book.getTagString());
         assertEquals("ISBN1234", book.getISBN());
     }
 
     @Test
-    public void bookCanBeMarkedAsRead(){
+    public void bookCanBeMarkedAsRead() {
         Book book = new Book("Name", "Author");
         TipDao dao = new BasicTipDao();
         assertEquals(false, book.isRead());
         book.markRead();
+        assertEquals(true, book.isRead());
     }
-    
+
+    @Test
+    public void bookCanBeSearchedByWord() {
+        Book book = new Book("Name", "Author");
+        book.setDescription("Testikuvaus");
+        assertTrue(book.contains("testi"));
+        assertTrue(book.contains("kuva"));
+    }
+
 }

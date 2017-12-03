@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import lukuvinkkikirjasto.domain.Tip;
 import lukuvinkkikirjasto.dao.TipDao;
 
@@ -88,5 +89,16 @@ public class BasicTipDao implements TipDao {
     @Override
     public void editTipByTitle(String title, String element, String edit) {
 
+    }
+
+    @Override
+    public List<Tip> searchByKeyword(String keyword) {
+        List<Tip> filteredTips = new ArrayList<>();
+        for (Tip tip : tips.values()) {
+            if (tip.contains(keyword)) {
+                filteredTips.add(tip);
+            }
+        }
+        return filteredTips;
     }
 }
