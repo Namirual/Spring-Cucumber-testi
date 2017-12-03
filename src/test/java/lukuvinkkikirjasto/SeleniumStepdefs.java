@@ -170,7 +170,8 @@ public class SeleniumStepdefs {
 
     @After
     public void tearDown() throws Throwable {
-        /*WebElement element = null;
+        Thread.sleep(500);
+        WebElement element = null;
 
         while (true) {
             try {
@@ -183,7 +184,7 @@ public class SeleniumStepdefs {
             element.click();
             Thread.sleep(1000);
             driver.switchTo().alert().accept();
-        }*/
+        }
         driver.quit();
     }
 
