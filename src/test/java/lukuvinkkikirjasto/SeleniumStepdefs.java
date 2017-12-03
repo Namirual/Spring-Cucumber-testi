@@ -181,16 +181,18 @@ public class SeleniumStepdefs {
             try {
                 element = driver.findElement(By.name("delete"));
             } catch (NoSuchElementException ex) {
-                break;
+                driver.quit();
+                return;
             }
-            Thread.sleep(500);
-            element.click();
-            WebDriverWait wait = new WebDriverWait(driver, 5);
+            if (element != null) {
+                element.click();
+                WebDriverWait wait = new WebDriverWait(driver, 5);
 
-            Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-            driver.switchTo().alert().accept();
+                Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+                driver.switchTo().alert().accept();
+            }
         }
-        driver.quit();
+        //driver.quit();
     }
 
     private void add_book(String title, String author, String description, String ISBN) {
