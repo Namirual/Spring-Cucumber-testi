@@ -182,6 +182,7 @@ public class SeleniumStepdefs {
             try {
                 WebElement element = driver.findElement(By.name("hiddenDelete"));
                 element.submit();
+                Thread.sleep(1000);
                 /*String id = element.getAttribute("id");
                 System.out.println("NOOOO!" + element + " " + id);
                 String jscript = "document.getElementById('" + id + "').click();";
