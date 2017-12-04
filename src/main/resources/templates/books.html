@@ -41,8 +41,8 @@ and open the template in the editor.
                 </tr>
 
                 <tr th:each="book : ${books}">
-                    <td th:if="${book.urlpresent}"><a th:href="${book.url}" th:text="${book.title}" th:name="view">title</a></td>>
-                    <td th:unless="${book.urlpresent}"> <span th:text="${book.title}" th:name="view">title></span></td>
+                    <td th:if="${book.urlpresent}"><a th:href="${book.url}" th:text="${book.title}" th:name="view">title</a></td>
+                    <td th:unless="${book.urlpresent}"> <span th:text="${book.title}" th:name="view">title</span></td>
                     <td><span th:text="${book.type}">type</span></td>
                     <td><span th:text="${book.description}">description</span></td>
                     <td><span th:text="${book.tagString}">tags</span></td>
@@ -58,7 +58,6 @@ and open the template in the editor.
                 function poista(id) {
                     var txt;
                     if (confirm("Haluatko varmasti poistaa vinkin?") == true) {
-                        //$('[id="' + id + '"]').click();
                         document.getElementById(id).click();
                     } else {
                         txt = "Vinkkiä ei poistettu!";

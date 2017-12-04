@@ -17,18 +17,13 @@ import java.util.concurrent.TimeUnit;
 import lukuvinkkikirjasto.dao.BasicTipDao;
 import lukuvinkkikirjasto.io.StubIO;
 import static org.junit.Assert.assertTrue;
-
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  *
@@ -153,9 +148,24 @@ public class SeleniumStepdefs {
         Thread.sleep(1000);
         WebElement element = driver.findElement(By.name("description"));
         element.sendKeys(desc);
-        element = driver.findElement(By.name("save"));
+        /*element = driver.findElement(By.name("save"));
+        element.submit();*/
+    }
+    
+    @When("^the tag \"([^\"]*)\" is entered$")
+    public void the_tag_is_entered(String tag) throws Throwable {
+        Thread.sleep(1000);
+        WebElement element = driver.findElement(By.name("tagString"));
+        element.sendKeys(tag);
+    }
+    
+    @When("^save is clicked$")
+    public void save_is_clicked() throws Throwable {
+        Thread.sleep(1000);
+        WebElement element = driver.findElement(By.name("save"));
         element.submit();
     }
+
 
     @When("^the book is marked read$")
     public void the_book_is_marked_read() throws Throwable {
@@ -176,66 +186,16 @@ public class SeleniumStepdefs {
     @After
     public void tearDown() throws Throwable {
         Thread.sleep(1000);
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        
         while (driver.getPageSource().contains("hiddenDelete")) {
             try {
                 WebElement element = driver.findElement(By.name("hiddenDelete"));
                 element.submit();
                 Thread.sleep(1000);
-                /*String id = element.getAttribute("id");
-                System.out.println("NOOOO!" + element + " " + id);
-                String jscript = "document.getElementById('" + id + "').click();";
-                try {
-                    js.executeScript(jscript);
-                } catch (org.openqa.selenium.WebDriverException error) {
-                }*/
             } catch (NoSuchElementException ex) {
             }
         }
 
-        /*if (driver.getPageSource().contains("Booky book")) {
-            try {
-                js.executeScript("document.getElementById('Booky book').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {
-            }
-            Thread.sleep(1000);
-        }
-        if (driver.getPageSource().contains("Vidya video")) {
-            try {
-                js.executeScript("document.getElementById('Vidya video').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {
-            }
-            Thread.sleep(1000);
-        }
-        if (driver.getPageSource().contains("Pieni kirjanen")) {
-            try {
-                js.executeScript("document.getElementById('Pieni kirjanen').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {
-            }
-            Thread.sleep(1000);
-        }
-
-        //js.executeScript("document.getElementsByName('hiddenDelete')[0].click();");
-        //js.executeScript("$('[name=\"hiddenDelete\"]').click();");
-        /*Thread.sleep(500);
-        WebElement element = null;
-
-        while (driver.getPageSource().contains("value=\"Delete\"")) {
-            
-            try {
-                element = driver.findElement(By.name("delete"));
-            } catch (NoSuchElementException ex) {
-                driver.quit();
-                return;
-            }
-            if (element != null) {
-                element.click();
-                WebDriverWait wait = new WebDriverWait(driver, 5);
-
-                Alert alert = wait.until(ExpectedConditions.alertIsPresent());
-                driver.switchTo().alert().accept();
-            }*/
         driver.quit();
     }
 
