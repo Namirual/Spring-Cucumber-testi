@@ -35,6 +35,7 @@ and open the template in the editor.
                 <tr>
                     <th align="left">Otsikko</th>
                     <th align="left">Tyyppi</th>
+                    <th align="left">Kuvaus</th>
                     <th align="left">Tagit</th>
                     <th align="left"></th>
                 </tr>
@@ -45,7 +46,7 @@ and open the template in the editor.
                     <td><span th:text="${book.type}">type</span></td>
                     <td><span th:text="${book.description}">description</span></td>
                     <td><span th:text="${book.tagString}">tags</span></td>
-                    <td><form th:action="@{/books/{id}(id=${book.title})}" th:method="DELETE"><input type="submit" style="display: none;" value="Delete" th:id="${book.title}"/></form></td>
+                    <td><form th:action="@{/books/{id}(id=${book.title})}" name="hiddenDelete" th:method="DELETE"><input type="submit" style="display: none;" value="Delete" th:id="${book.title}"/></form></td>
                     <td><a th:href="@{/books/{id}(id=${book.title})}" th:text="muokkaa" th:name="view">title</a></td>
 
                     <td><button th:onclick="'javascript:poista(\'' + ${book.title} + '\');'" name="delete">Poista</button></td>

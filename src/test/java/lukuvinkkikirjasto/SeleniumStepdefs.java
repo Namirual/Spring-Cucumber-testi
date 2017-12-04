@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -174,10 +175,34 @@ public class SeleniumStepdefs {
 
     @After
     public void tearDown() throws Throwable {
-        Thread.sleep(500);
+        Thread.sleep(1000);
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        if (driver.getPageSource().contains("Booky book")) {
+            try {
+                js.executeScript("document.getElementById('Booky book').click();");
+            } catch (org.openqa.selenium.WebDriverException error) {}
+            Thread.sleep(1000);
+        }
+        if (driver.getPageSource().contains("Vidya video")) {
+            try {
+                js.executeScript("document.getElementById('Vidya video').click();");
+            } catch (org.openqa.selenium.WebDriverException error) {}
+            Thread.sleep(1000);
+        }
+        if (driver.getPageSource().contains("Pieni kirjanen")) {
+            try {js.executeScript("document.getElementById('Pieni kirjanen').click();");
+            } catch (org.openqa.selenium.WebDriverException error) {}
+            Thread.sleep(1000);
+        }
+
+        //js.executeScript("document.getElementsByName('hiddenDelete')[0].click();");
+        //js.executeScript("$('[name=\"hiddenDelete\"]').click();");
+        /*Thread.sleep(500);
         WebElement element = null;
 
-        while (true) {
+        while (driver.getPageSource().contains("value=\"Delete\"")) {
+            
             try {
                 element = driver.findElement(By.name("delete"));
             } catch (NoSuchElementException ex) {
@@ -190,9 +215,8 @@ public class SeleniumStepdefs {
 
                 Alert alert = wait.until(ExpectedConditions.alertIsPresent());
                 driver.switchTo().alert().accept();
-            }
-        }
-        //driver.quit();
+            }*/
+        driver.quit();
     }
 
     private void add_book(String title, String author, String description, String ISBN) {
