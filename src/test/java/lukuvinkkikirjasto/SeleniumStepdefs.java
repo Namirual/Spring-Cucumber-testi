@@ -175,24 +175,36 @@ public class SeleniumStepdefs {
 
     @After
     public void tearDown() throws Throwable {
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        if (driver.getPageSource().contains("Booky book")) {
+        while (driver.getPageSource().contains("hiddenDelete")) {
+            try {
+                WebElement element = driver.findElement(By.name("hiddenDelete"));
+                element.submit();
+            } catch (NoSuchElementException ex) {
+            }
+        }
+
+        /*if (driver.getPageSource().contains("Booky book")) {
             try {
                 js.executeScript("document.getElementById('Booky book').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {}
+            } catch (org.openqa.selenium.WebDriverException error) {
+            }
             Thread.sleep(1000);
         }
         if (driver.getPageSource().contains("Vidya video")) {
             try {
                 js.executeScript("document.getElementById('Vidya video').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {}
+            } catch (org.openqa.selenium.WebDriverException error) {
+            }
             Thread.sleep(1000);
         }
         if (driver.getPageSource().contains("Pieni kirjanen")) {
-            try {js.executeScript("document.getElementById('Pieni kirjanen').click();");
-            } catch (org.openqa.selenium.WebDriverException error) {}
+            try {
+                js.executeScript("document.getElementById('Pieni kirjanen').click();");
+            } catch (org.openqa.selenium.WebDriverException error) {
+            }
             Thread.sleep(1000);
         }
 
