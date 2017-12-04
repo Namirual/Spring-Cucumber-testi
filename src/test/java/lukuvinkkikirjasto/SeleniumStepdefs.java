@@ -175,13 +175,20 @@ public class SeleniumStepdefs {
 
     @After
     public void tearDown() throws Throwable {
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         while (driver.getPageSource().contains("hiddenDelete")) {
             try {
                 WebElement element = driver.findElement(By.name("hiddenDelete"));
                 element.submit();
+                /*String id = element.getAttribute("id");
+                System.out.println("NOOOO!" + element + " " + id);
+                String jscript = "document.getElementById('" + id + "').click();";
+                try {
+                    js.executeScript(jscript);
+                } catch (org.openqa.selenium.WebDriverException error) {
+                }*/
             } catch (NoSuchElementException ex) {
             }
         }
